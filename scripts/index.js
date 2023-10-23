@@ -9,7 +9,7 @@ function addCard (cardTitle, cardSrc, removeCard) {
     cardElement.querySelector('.card__title').textContent = cardTitle;
     cardElement.querySelector('.card__image').src = cardSrc; 
     cardElement.querySelector('.card__image').alt = cardTitle + ', фото';
-    removeButton.addEventListener('click', removeCard());
+    removeButton.addEventListener('click', removeCard);
     return cardElement;
 }
 
@@ -36,7 +36,7 @@ initialCards.forEach(function(element) {
     cardElement.querySelector('.card__title').textContent = element.name;
     cardElement.querySelector('.card__image').src = element.link;
     cardElement.querySelector('.card__image').alt = element.name + ', фото';
-    removeButton.addEventListener('click', removeCard);
+    // removeButton.addEventListener('click', removeCard);
     cardContainer.append(addCard (element.name, element.link, removeCard));
 });
 
