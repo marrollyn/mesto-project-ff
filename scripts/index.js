@@ -9,13 +9,7 @@ function addCard (cardTitle, cardSrc, removeCard) {
     cardElement.querySelector('.card__title').textContent = cardTitle;
     cardElement.querySelector('.card__image').src = cardSrc; 
     cardElement.querySelector('.card__image').alt = cardTitle + ', фото';
-    
-    removeButton.addEventListener('click', function removeCard () {
-        removeButton.addEventListener('click', function () {
-            const cardElement = removeButton.closest('.card');
-            cardElement.remove();
-        });
-    });
+    removeButton.addEventListener('click', removeCard());
     return cardElement;
 }
 
@@ -26,10 +20,11 @@ function addCard (cardTitle, cardSrc, removeCard) {
 
 
 // @todo: Функция удаления карточки
-function removeCard () {
+function removeCard (event) {
+    const eventTarget = event.target;
+    const cardElement = eventTarget.closest('.card');
     const removeButton = cardElement.querySelector('.card__delete-button');
     removeButton.addEventListener('click', function () {
-        const cardElement = removeButton.closest('.card');
         cardElement.remove();
     });
 }
