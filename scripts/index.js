@@ -21,30 +21,18 @@ function addCard (cardTitle, cardSrc, removeCard) {
 
 // @todo: Функция удаления карточки
 function removeCard (event) {
-    // const eventTarget = event.target;
     const cardElement = event.target.closest('.card');
-    const removeButton = cardElement.querySelector('.card__delete-button');
-    removeButton.addEventListener('click', function () {
-        cardElement.remove();
-    });
+    cardElement.remove();
+
 }
 
 // @todo: Вывести карточки на страницу
 initialCards.forEach(function(element) {
     const cardElement = cardTemplate.cloneNode(true);
-    // const removeButton = cardElement.querySelector('.card__delete-button');
     cardElement.querySelector('.card__title').textContent = element.name;
     cardElement.querySelector('.card__image').src = element.link;
     cardElement.querySelector('.card__image').alt = element.name + ', фото';
-    // removeButton.addEventListener('click', removeCard);
     cardContainer.append(addCard (element.name, element.link, removeCard));
 });
 
-function logCharacters(str) {
-    debugger;
-    for(let index = 0; index < str.length; index += 1) {
-        console.log(str[index]);
-    }
-}
 
-logCharacters('SEGAAAAAA'); 
