@@ -1,5 +1,5 @@
-export {initialCards, removeCard, createCard, cardTemplate, cardContainer};
-import {likeCard, openImgPopup} from './index.js';
+export {initialCards, removeCard, createCard, cardTemplate, cardContainer, likeCard};
+import {openImgPopup} from './modal.js';
 
 const initialCards = [
     {
@@ -50,7 +50,12 @@ function createCard (cardTitle, cardSrc, removeCard, likeCard, openImgPopup) {
 }
 
 
-// @todo: Вывести карточки на страницу
-initialCards.forEach(function(element) {
-  cardContainer.append(createCard (element.name, element.link, removeCard, likeCard));
-});
+
+
+function likeCard (event) {
+  if (event.target.classList.contains('card__like-button')) {
+      event.target.classList.toggle('card__like-button_is-active');
+  }
+}
+  
+cardContainer.addEventListener('click', likeCard);
