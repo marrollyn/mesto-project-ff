@@ -1,4 +1,5 @@
-import {initialCards, removeCard, createCard, cardTemplate, cardContainer, likeCard} from './cards.js';
+import {initialCards} from './cards.js';
+import {removeCard, createCard, cardTemplate, cardContainer, likeCard} from './card.js';
 import {pageCont, formElement, nameInput, jobInput, addFormElement, editPopup, createCardPopup} from './index.js';
 export {openImgPopup, openPopupSubFunc, closePopupClickBtn, closePopupClickOvrl, closePopupBtn, openPopup, closePopupSubmit, handleFormSubmit, addCardFormSubmit};
 
@@ -60,8 +61,6 @@ function closePopupSubmit (event) {
     elmt.classList.remove('popup_is-opened');
 }
 
-
-
 function handleFormSubmit(event) {
     event.preventDefault(); // Эта строчка отменяет стандартную отправку формы.
     // Так мы можем определить свою логику отправки.
@@ -78,7 +77,6 @@ function handleFormSubmit(event) {
     profileDesc.textContent = newProfileJob;
     closePopupSubmit(event);
 }
-
 
 function addCardFormSubmit(event, likeCard, openImgPopup) {
     event.preventDefault();

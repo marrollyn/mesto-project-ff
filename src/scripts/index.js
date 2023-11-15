@@ -1,13 +1,10 @@
 import '../pages/index.css'; // добавьте импорт главного файла стилей
-
 import {openImgPopup, openPopupSubFunc, closePopupClickBtn, closePopupClickOvrl, closePopupBtn, openPopup, closePopupSubmit, handleFormSubmit, addCardFormSubmit} from './modal.js';
-
-import {initialCards, removeCard, createCard, cardTemplate, cardContainer, likeCard} from './cards.js'
-
+import {initialCards} from './cards.js'
+import {removeCard, createCard, cardTemplate, cardContainer, likeCard} from './card.js'
 export {pageCont, formElement, nameInput, jobInput, addFormElement, editPopup, createCardPopup};
 
 const pageCont = document.querySelector('.page__content');
-
 const formElement = document.forms['edit-profile'];
 const nameInput = document.querySelector('.popup__input_type_name');
 const jobInput = document.querySelector('.popup__input_type_description');
