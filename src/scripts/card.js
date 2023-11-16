@@ -1,6 +1,6 @@
 export {removeCard, createCard, cardTemplate, cardContainer, likeCard};
 import {initialCards} from './cards.js';
-import {openImgPopup} from './modal.js';
+import {openImgPopup} from './index.js';
 
 const cardTemplate = document.querySelector('#card-template').content;
 const cardContainer = document.querySelector('.places__list');
@@ -19,13 +19,16 @@ function createCard (cardTitle, cardSrc, removeCard, likeCard, openImgPopup) {
     cardElement.querySelector('.card__image').src = cardSrc; 
     cardElement.querySelector('.card__image').alt = cardTitle + ', фото';
     removeButton.addEventListener('click', removeCard);
+    cardElement.querySelector('.card__like-button').addEventListener('click', likeCard);
+    cardElement.querySelector('.card__image').addEventListener('click', openImgPopup);
     return cardElement;
 }
 
 function likeCard (event) {
-    if (event.target.classList.contains('card__like-button')) {
     event.target.classList.toggle('card__like-button_is-active');
-    }
 }
 
-cardContainer.addEventListener('click', likeCard);
+// @todo: Вывести карточки на страницу
+initialCards.forEach(function(element) {
+    cardContainer.append(createCard (element.name, element.link, removeCard, likeCard, openImgPopup));
+});
