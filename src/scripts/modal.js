@@ -2,8 +2,8 @@ export {openModal, closeModal, closePopupByEsc, closePopupClickOvrl};
 
 function closePopupByEsc (event) {
     if (event.key === 'Escape'){
-    const elmnt = document.querySelector('.popup_is-opened');
-    closeModal(elmnt);
+        const elmnt = document.querySelector('.popup_is-opened');
+        closeModal(elmnt);
     } 
 }
 

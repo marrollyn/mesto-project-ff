@@ -1,6 +1,7 @@
 export {removeCard, createCard, cardTemplate, cardContainer, likeCard};
 import {initialCards} from './cards.js';
 import {openImgPopup} from './index.js';
+import {openModal} from './modal.js'; 
 
 const cardTemplate = document.querySelector('#card-template').content;
 const cardContainer = document.querySelector('.places__list');
