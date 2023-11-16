@@ -24,11 +24,11 @@ function createCard (cardTitle, cardSrc, removeCard, likeCard, openImgPopup) {
     return cardElement;
 }
 
-function likeCard (event) {
-    event.target.classList.toggle('card__like-button_is-active');
-}
-
 // @todo: Вывести карточки на страницу
 initialCards.forEach(function(element) {
     cardContainer.append(createCard (element.name, element.link, removeCard, likeCard, openImgPopup));
 });
+
+function likeCard (event) {
+    event.target.classList.toggle('card__like-button_is-active');
+}
