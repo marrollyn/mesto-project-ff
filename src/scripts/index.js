@@ -2,7 +2,6 @@ import '../pages/index.css'; // добавьте импорт главного �
 import { initialCards } from './cards.js'
 import { removeCard, createCard, cardTemplate, cardContainer, likeCard } from './card.js'
 import { openModal, closeModal, closePopupByEsc, closePopupClickOvrl } from './modal.js';
-export { openImgPopup }; //без экспорта функция не отрабатывает с карточками в card.js
 
 const pageCont = document.querySelector('.page__content');
 const editformElement = document.forms['edit-profile'];
@@ -17,6 +16,11 @@ const closeBtnEditPopup = editPopup.querySelector('.popup__close');
 const closeBtnCreateCardPopup = createCardPopup.querySelector('.popup__close');
 const imgPopup = document.querySelector('.popup_type_image'); //ex-globe
 const closeBtnImgPopup = imgPopup.querySelector('.popup__close');
+
+// @todo: Вывести карточки на страницу
+initialCards.forEach(function(element) {
+    cardContainer.append(createCard (element.name, element.link, removeCard, likeCard, openImgPopup));
+});
 
 pageCont.addEventListener('click', closePopupClickOvrl);
 
