@@ -1,8 +1,9 @@
 import '../pages/index.css'; // добавьте импорт главного файла стилей
 import { initialCards } from './cards.js'
-import { removeCard, createCard, cardTemplate, cardContainer, likeCard } from './card.js'
+import { removeCard, createCard, cardTemplate, likeCard } from './card.js'
 import { openModal, closeModal, closePopupByEsc, closePopupClickOvrl } from './modal.js';
 
+const cardContainer = document.querySelector('.places__list');
 const pageCont = document.querySelector('.page__content');
 const editformElement = document.forms['edit-profile'];
 const nameInput = document.querySelector('.popup__input_type_name');
@@ -14,7 +15,7 @@ const editProfileBtn = document.querySelector('.profile__edit-button');
 const createCardBtn = document.querySelector('.profile__add-button');
 const closeBtnEditPopup = editPopup.querySelector('.popup__close');
 const closeBtnCreateCardPopup = createCardPopup.querySelector('.popup__close');
-const imgPopup = document.querySelector('.popup_type_image'); //ex-globe
+const imgPopup = document.querySelector('.popup_type_image');
 const closeBtnImgPopup = imgPopup.querySelector('.popup__close');
 
 // @todo: Вывести карточки на страницу

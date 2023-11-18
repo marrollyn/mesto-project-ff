@@ -1,9 +1,6 @@
-export {removeCard, createCard, cardTemplate, cardContainer, likeCard};
-import {initialCards} from './cards.js';
-import {openImgPopup} from './index.js';
+export {removeCard, createCard, cardTemplate, likeCard};
 
 const cardTemplate = document.querySelector('#card-template').content;
-const cardContainer = document.querySelector('.places__list');
 
 // @todo: Функция удаления карточки
 function removeCard (event) {
