@@ -2,6 +2,7 @@ import '../pages/index.css'; // добавьте импорт главного �
 import { initialCards } from './cards.js'
 import { removeCard, createCard, cardTemplate, likeCard } from './card.js'
 import { openModal, closeModal, closePopupByEsc, closePopupClickOvrl } from './modal.js';
+import {enableValidation, clearValidation} from "./validation.js";
 
 const cardContainer = document.querySelector('.places__list');
 const pageCont = document.querySelector('.page__content');
@@ -17,6 +18,14 @@ const closeBtnEditPopup = editPopup.querySelector('.popup__close');
 const closeBtnCreateCardPopup = createCardPopup.querySelector('.popup__close');
 const imgPopup = document.querySelector('.popup_type_image');
 const closeBtnImgPopup = imgPopup.querySelector('.popup__close');
+const validationConfig = {
+    formSelector: '.popup__form',
+    inputSelector: '.popup__input',
+    submitButtonSelector: '.popup__button',
+    inactiveButtonClass: 'popup__button_disabled',
+    inputErrorClass: 'popup__input_type_error',
+    errorClass: 'popup__error_visible'
+};
 
 // @todo: Вывести карточки на страницу
 initialCards.forEach(function(element) {
@@ -81,11 +90,19 @@ function openImgPopup(event) {
 }
 
 function openEditProfilePopup(event) {
+    clearValidation(editPopup, validationConfig);
     nameInput.value = document.querySelector('.profile__title').textContent;
     jobInput.value = document.querySelector('.profile__description').textContent;
     openModal(editPopup);
 }
 
 function openCreateCardPopup(event) {
+    addFormElement.reset();
+    clearValidation(createCardPopup, validationConfig);
     openModal(createCardPopup);
 }
+
+enableValidation(validationConfig);
+
+
+
