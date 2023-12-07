@@ -3,6 +3,7 @@ import { initialCards } from './cards.js'
 import { removeCard, createCard, cardTemplate, likeCard } from './card.js'
 import { openModal, closeModal, closePopupByEsc, closePopupClickOvrl } from './modal.js';
 import {enableValidation, clearValidation} from "./validation.js";
+import {updateUserInfoByApi, getUserInfoByApi, getCardsByApi} from "./api.js";
 
 const cardContainer = document.querySelector('.places__list');
 const pageCont = document.querySelector('.page__content');
@@ -65,6 +66,7 @@ function editProfileFormSubmit(event) { //ex handleFormSubmit
     profileName.textContent = newProfileName;
     profileDesc.textContent = newProfileJob;
     //closePopupSubmit(event);
+    updateUserInfoByApi(newProfileName, newProfileJob);
     closeModal(editPopup);
 }
 
@@ -104,9 +106,21 @@ function openCreateCardPopup(event) {
 
 enableValidation(validationConfig);
 
+//initialByApi();
+
 //GET https://nomoreparties.co/v1/:wff-cohort-1/users/me 
 
-// fetch('https://nomoreparties.co/v1/wff-cohort-1/cards', {
+//  fetch('https://nomoreparties.co/v1/wff-cohort-1/cards', {
+//      headers: {
+//      authorization: '73cd315f-54c6-4681-84c4-826e15c27bc3'
+//      }
+// })
+//     .then(res => res.json())
+//      .then((result) => {
+//     console.log(result);
+// }); 
+
+// fetch('https://nomoreparties.co/v1/wff-cohort-1/users/me', {
 //     headers: {
 //     authorization: '73cd315f-54c6-4681-84c4-826e15c27bc3'
 //     }
@@ -116,42 +130,48 @@ enableValidation(validationConfig);
 //     console.log(result);
 // }); 
 
-fetch('https://nomoreparties.co/v1/wff-cohort-1/users/me', {
-    headers: {
-    authorization: '73cd315f-54c6-4681-84c4-826e15c27bc3'
-    }
-})
-    .then(res => res.json())
-    .then((result) => {
-    console.log(result);
-}); 
+// fetch('https://nomoreparties.co/v1/wff-cohort-1/cards', {
+//         method: 'GET',
+//         headers: {
+//             authorization: '73cd315f-54c6-4681-84c4-826e15c27bc3'
+//         }
+//     })
+//     .then((res) => {
+//         return res.json();
+//     })
+//     .then((cards) => {
+//         console.log(cards);
+//         cards.forEach(function(element) {
+//             cardContainer.append(createCard (element.name, element.link, removeCard, likeCard, openImgPopup));
+//         });
+// });
 
-fetch('https://nomoreparties.co/v1/wff-cohort-1/cards', {
-        method: 'GET',
-        headers: {
-            authorization: '73cd315f-54c6-4681-84c4-826e15c27bc3'
-        }
-    })
+let userID;
+function initialByApi() {
+    Promise.all([getUserInfoByApi(), getCardsByApi()])
     .then((res) => {
-        return res.json();
-    })
-    .then((cards) => {
-        console.log(cards);
-        cards.forEach(function(element) {
-            cardContainer.append(createCard (element.name, element.link, removeCard, likeCard, openImgPopup));
+        const userInfo = res[0];
+        const cardsList = res[1];
+        const profileName = document.querySelector('.profile__title');
+        const profileDesc = document.querySelector('.profile__description');
+        profileName.textContent = userInfo.name;
+        profileDesc.textContent = userInfo.about;
+        //console.log(userID);
+        cardsList.forEach(function(element) {
+            document.querySelector('.places__list').append(createCard (element.name, element.link, removeCard, likeCard, openImgPopup));
         });
-});
-
-fetch('https://nomoreparties.co/v1/wff-cohort-1/users/me', {
-        headers: {
-        authorization: '73cd315f-54c6-4681-84c4-826e15c27bc3'
-        }
+        console.log(cardsList);
+        //console.log(userInfo._id);
+        let userID = userInfo._id;
     })
-    .then(res => res.json())
-    .then((result) => {
-    console.log(result);
-    const profileName = document.querySelector('.profile__title');
-    const profileDesc = document.querySelector('.profile__description');
-    profileName.textContent = result.name;
-    profileDesc.textContent = result.about;
-});
+    .catch(error => {
+        console.error(error);
+    });
+};
+
+initialByApi();
+console.log(userID);
+
+
+
+

@@ -24,3 +24,4 @@ function createCard (cardTitle, cardSrc, removeCard, likeCard, openImgPopup) {
 function likeCard (event) {
     event.target.classList.toggle('card__like-button_is-active');
 }
+
