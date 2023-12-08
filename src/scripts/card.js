@@ -1,4 +1,5 @@
 export {removeCard, createCard, cardTemplate, likeCard};
+import {deleteCardApi} from "./api.js";
 
 const cardTemplate = document.querySelector('#card-template').content;
 
@@ -9,15 +10,49 @@ function removeCard (event) {
 }
 
 // @todo: Темплейт карточки
-function createCard (cardTitle, cardSrc, removeCard, likeCard, openImgPopup) {
+function createCard (cardData, removeCard, likeCard, openImgPopup, userID, deleteCardApi, putLikeCardApi, deleteLikeCardApi, getNumbersOfLikeByApi) {
     const cardElement = cardTemplate.querySelector('.card').cloneNode(true);
     const removeButton = cardElement.querySelector('.card__delete-button');
-    cardElement.querySelector('.card__title').textContent = cardTitle;
-    cardElement.querySelector('.card__image').src = cardSrc; 
-    cardElement.querySelector('.card__image').alt = cardTitle + ', фото';
-    removeButton.addEventListener('click', removeCard);
-    cardElement.querySelector('.card__like-button').addEventListener('click', likeCard);
-    cardElement.querySelector('.card__image').addEventListener('click', openImgPopup);
+    const likeButton = cardElement.querySelector('.card__like-button');
+    const cardImg = cardElement.querySelector('.card__image');
+    const likeLbl = cardElement.querySelector('.card__like-count')
+    const cardTtl = cardElement.querySelector('.card__title');
+    const cardOwnerID = cardData.owner._id;
+    const cardId = cardData._id;
+    const likeArr = cardData.likes;
+
+    likeLbl.textContent = cardData.likes.length;
+
+    likeArr.forEach(element => {
+        if (element._id == userID) {
+            likeButton.classList.add('card__like-button_is-active');
+        }
+    });
+
+    if (cardOwnerID !== userID) {
+        removeButton.remove();
+    }
+    cardTtl.textContent = cardData.name;
+    cardImg.src = cardData.link; 
+    cardImg.alt = cardData.name + ', фото';
+    removeButton.addEventListener('click', (event) => {
+        deleteCardApi (cardId);
+        removeCard(event);
+    });
+    
+    likeButton.addEventListener('click', (event) => {
+        if (likeButton.classList.contains('card__like-button_is-active')) {
+            deleteLikeCardApi (cardId)
+                .then( (likes) => {
+                    likeLbl.textContent = likes.likes.length;  
+                })
+        } else putLikeCardApi (cardId)
+                    .then( (likes) => {
+                        likeLbl.textContent = likes.likes.length;
+                    })
+        likeCard (event);
+    });
+    cardImg.addEventListener('click', openImgPopup);
     return cardElement;
 }
 

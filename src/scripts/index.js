@@ -3,7 +3,7 @@ import { initialCards } from './cards.js'
 import { removeCard, createCard, cardTemplate, likeCard } from './card.js'
 import { openModal, closeModal, closePopupByEsc, closePopupClickOvrl } from './modal.js';
 import {enableValidation, clearValidation} from "./validation.js";
-import {updateUserInfoByApi, getUserInfoByApi, getCardsByApi} from "./api.js";
+import {updateUserInfoByApi, getUserInfoByApi, getCardsByApi, addCardApi, deleteCardApi, putLikeCardApi, deleteLikeCardApi, getNumbersOfLikeByApi} from "./api.js";
 
 const cardContainer = document.querySelector('.places__list');
 const pageCont = document.querySelector('.page__content');
@@ -19,6 +19,9 @@ const closeBtnEditPopup = editPopup.querySelector('.popup__close');
 const closeBtnCreateCardPopup = createCardPopup.querySelector('.popup__close');
 const imgPopup = document.querySelector('.popup_type_image');
 const closeBtnImgPopup = imgPopup.querySelector('.popup__close');
+const editProfilePhotoForm = document.querySelector(['profile-photo']);
+const editProfilePhotoPopup = document.querySelector('.popup_type_profile-photo');
+const profilePhoto = document.querySelector('.profile__image');
 const validationConfig = {
     formSelector: '.popup__form',
     inputSelector: '.popup__input',
@@ -29,9 +32,9 @@ const validationConfig = {
 };
 
 // @todo: Вывести карточки на страницу
-initialCards.forEach(function(element) {
-    cardContainer.append(createCard (element.name, element.link, removeCard, likeCard, openImgPopup));
-});
+// initialCards.forEach(function(element) {
+//     cardContainer.append(createCard (element.name, element.link, removeCard, likeCard, openImgPopup));
+// });
 
 pageCont.addEventListener('click', closePopupClickOvrl);
 
@@ -46,6 +49,8 @@ closeBtnImgPopup.addEventListener('click', closePopupClickBtn);
 
 editProfileBtn.addEventListener('click', openEditProfilePopup);
 createCardBtn.addEventListener('click', openCreateCardPopup);
+profilePhoto.addEventListener('click', openEditProfilePhotoForm);
+//editProfilePhotoForm 
 
 function closePopupClickBtn(event) {
     const element = event.target.closest('.popup');
@@ -74,9 +79,16 @@ function addCardFormSubmit(event) {
     event.preventDefault();
     const cardNameInput = addFormElement.querySelector('.popup__input_type_card-name');
     const cardUrlInput = addFormElement.querySelector('.popup__input_type_url');
-    const cardName = cardNameInput.value;
-    const cardUrl = cardUrlInput.value;
-    cardContainer.prepend(createCard(cardName, cardUrl, removeCard, likeCard, openImgPopup));
+    const name = cardNameInput.value;
+    const link = cardUrlInput.value;
+    addCardApi({name, link}) 
+        .then((card) => {
+            cardContainer.prepend(createCard(card, removeCard, likeCard, openImgPopup, userID, deleteCardApi, putLikeCardApi, deleteLikeCardApi, getNumbersOfLikeByApi));
+        })
+        .catch(error => {
+            console.error(error);
+        });
+    
     addFormElement.reset();
     closeModal(createCardPopup);
 }
@@ -104,49 +116,16 @@ function openCreateCardPopup(event) {
     openModal(createCardPopup);
 }
 
+function openEditProfilePhotoForm (event) {
+    addFormElement.reset();
+    //clearValidation(editProfilePhotoPopup, validationConfig);
+    openModal(editProfilePhotoPopup);
+}
+
 enableValidation(validationConfig);
 
-//initialByApi();
-
-//GET https://nomoreparties.co/v1/:wff-cohort-1/users/me 
-
-//  fetch('https://nomoreparties.co/v1/wff-cohort-1/cards', {
-//      headers: {
-//      authorization: '73cd315f-54c6-4681-84c4-826e15c27bc3'
-//      }
-// })
-//     .then(res => res.json())
-//      .then((result) => {
-//     console.log(result);
-// }); 
-
-// fetch('https://nomoreparties.co/v1/wff-cohort-1/users/me', {
-//     headers: {
-//     authorization: '73cd315f-54c6-4681-84c4-826e15c27bc3'
-//     }
-// })
-//     .then(res => res.json())
-//     .then((result) => {
-//     console.log(result);
-// }); 
-
-// fetch('https://nomoreparties.co/v1/wff-cohort-1/cards', {
-//         method: 'GET',
-//         headers: {
-//             authorization: '73cd315f-54c6-4681-84c4-826e15c27bc3'
-//         }
-//     })
-//     .then((res) => {
-//         return res.json();
-//     })
-//     .then((cards) => {
-//         console.log(cards);
-//         cards.forEach(function(element) {
-//             cardContainer.append(createCard (element.name, element.link, removeCard, likeCard, openImgPopup));
-//         });
-// });
-
 let userID;
+
 function initialByApi() {
     Promise.all([getUserInfoByApi(), getCardsByApi()])
     .then((res) => {
@@ -156,13 +135,12 @@ function initialByApi() {
         const profileDesc = document.querySelector('.profile__description');
         profileName.textContent = userInfo.name;
         profileDesc.textContent = userInfo.about;
-        //console.log(userID);
+        let userID = userInfo._id;
         cardsList.forEach(function(element) {
-            document.querySelector('.places__list').append(createCard (element.name, element.link, removeCard, likeCard, openImgPopup));
+            document.querySelector('.places__list').append(createCard (element, removeCard, likeCard, openImgPopup, userID, deleteCardApi, putLikeCardApi, deleteLikeCardApi, getNumbersOfLikeByApi));
         });
         console.log(cardsList);
-        //console.log(userInfo._id);
-        let userID = userInfo._id;
+        console.log(userID);
     })
     .catch(error => {
         console.error(error);
@@ -170,8 +148,6 @@ function initialByApi() {
 };
 
 initialByApi();
-console.log(userID);
-
 
 
 
