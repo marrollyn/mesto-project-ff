@@ -1,4 +1,4 @@
-export {updateUserInfoByApi, getUserInfoByApi, getCardsByApi, addCardApi, deleteCardApi, putLikeCardApi, deleteLikeCardApi, getNumbersOfLikeByApi};
+export {updateUserInfoByApi, getUserInfoByApi, getCardsByApi, addCardApi, deleteCardApi, putLikeCardApi, deleteLikeCardApi, updateUserPhotoByApi};
 
 
 function updateUserInfoByApi(newProfileName, newProfileJob) {
@@ -13,9 +13,6 @@ function updateUserInfoByApi(newProfileName, newProfileJob) {
         }
     }) 
     .then((res) => getResponseData(res));
-    // .catch(error => {
-    //     console.error(error);
-    // });
 }
 
 function getUserInfoByApi() {
@@ -25,15 +22,6 @@ function getUserInfoByApi() {
         }
     })
     .then((res) => getResponseData(res));
-    // .then((result) => {
-    // console.log(result);
-    // const profileName = document.querySelector('.profile__title');
-    // const profileDesc = document.querySelector('.profile__description');
-    // const userID = result._id;
-    // profileName.textContent = result.name;
-    // profileDesc.textContent = result.about;
-    // console.log(userID);
-    // }); 
 }
 
 function getResponseData (res) {
@@ -98,14 +86,18 @@ function deleteLikeCardApi (cardId) {
         }
     }) 
     .then((res) => getResponseData(res));
-}
+};
 
-function getNumbersOfLikeByApi(cardId) {
-    return fetch(`https://nomoreparties.co/v1/wff-cohort-1/cards/${cardId}`, {
-        method: 'GET',
+function updateUserPhotoByApi(UserPhoto) {
+    return fetch('https://nomoreparties.co/v1/wff-cohort-1/users/me', {
+        method: 'PATCH',
+        body: JSON.stringify({
+            avatar: UserPhoto
+        }),
         headers: {
-            authorization: '73cd315f-54c6-4681-84c4-826e15c27bc3'
+        authorization: '73cd315f-54c6-4681-84c4-826e15c27bc3',
+        'Content-Type': 'application/json'
         }
-    })
+    }) 
     .then((res) => getResponseData(res));
 };

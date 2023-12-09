@@ -1,5 +1,5 @@
 export {removeCard, createCard, cardTemplate, likeCard};
-import {deleteCardApi} from "./api.js";
+//import {deleteCardApi} from "./api.js";
 
 const cardTemplate = document.querySelector('#card-template').content;
 
@@ -10,7 +10,7 @@ function removeCard (event) {
 }
 
 // @todo: Темплейт карточки
-function createCard (cardData, removeCard, likeCard, openImgPopup, userID, deleteCardApi, putLikeCardApi, deleteLikeCardApi, getNumbersOfLikeByApi) {
+function createCard (cardData, removeCard, likeCard, openImgPopup, userID, deleteCardApi, putLikeCardApi, deleteLikeCardApi) {
     const cardElement = cardTemplate.querySelector('.card').cloneNode(true);
     const removeButton = cardElement.querySelector('.card__delete-button');
     const likeButton = cardElement.querySelector('.card__like-button');
@@ -32,6 +32,7 @@ function createCard (cardData, removeCard, likeCard, openImgPopup, userID, delet
     if (cardOwnerID !== userID) {
         removeButton.remove();
     }
+    
     cardTtl.textContent = cardData.name;
     cardImg.src = cardData.link; 
     cardImg.alt = cardData.name + ', фото';
