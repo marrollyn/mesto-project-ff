@@ -89,7 +89,7 @@ function deleteLikeCardApi (cardId) {
 };
 
 function updateUserPhotoByApi(UserPhoto) {
-    return fetch('https://nomoreparties.co/v1/wff-cohort-1/users/me', {
+    return fetch('https://nomoreparties.co/v1/wff-cohort-1/users/me/avatar', {
         method: 'PATCH',
         body: JSON.stringify({
             avatar: UserPhoto
@@ -99,5 +99,9 @@ function updateUserPhotoByApi(UserPhoto) {
         'Content-Type': 'application/json'
         }
     }) 
-    .then((res) => getResponseData(res));
+    .then((res) => {
+        console.log(res)
+        return getResponseData(res)
+    })
+    //.then((res) => {console.log(res)})
 };

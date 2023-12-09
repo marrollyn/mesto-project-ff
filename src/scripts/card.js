@@ -53,6 +53,7 @@ function createCard (cardData, removeCard, likeCard, openImgPopup, userID, delet
                     })
         likeCard (event);
     });
+
     cardImg.addEventListener('click', openImgPopup);
     return cardElement;
 }

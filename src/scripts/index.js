@@ -24,7 +24,10 @@ const editProfilePhotoForm = document.forms['profile-photo'];
 const editProfilePhotoPopup = document.querySelector('.popup_type_profile-photo');
 const profilePhoto = document.querySelector('.profile__image-container');
 const closeBtnEditProfilePhotoPopup = editProfilePhotoPopup.querySelector('.popup__close');
-const saveBtnAddFormElement = addFormElement.querySelector('.popup__button');
+const saveBtnAddForm = addFormElement.querySelector('.popup__button');
+const saveBtnEditProfileForm = editformElement.querySelector('.popup__button');
+const saveBtnEditAvatarForm = editProfilePhotoForm.querySelector('.popup__button');
+
 const validationConfig = {
     formSelector: '.popup__form',
     inputSelector: '.popup__input',
@@ -34,19 +37,12 @@ const validationConfig = {
     errorClass: 'popup__error_visible'
 };
 
-// @todo: Вывести карточки на страницу
-// initialCards.forEach(function(element) {
-//     cardContainer.append(createCard (element.name, element.link, removeCard, likeCard, openImgPopup));
-// });
-
 pageCont.addEventListener('click', closePopupClickOvrl);
 
 // Прикрепляем обработчик к форме:
 // он будет следить за событием “submit” - «отправка»
 editformElement.addEventListener('submit', editProfileFormSubmit);
-addFormElement.addEventListener('submit', (event) => {
-    saveBtnAddFormElement.textContent = "Сохраняю..."
-    addCardFormSubmit(event)});
+addFormElement.addEventListener('submit', addCardFormSubmit);
 editProfilePhotoForm.addEventListener('submit', editProfilePhotoSubmit);
 
 closeBtnEditPopup.addEventListener('click', closePopupClickBtn);
@@ -69,6 +65,7 @@ function editProfileFormSubmit(event) { //ex handleFormSubmit
     // Так мы можем определить свою логику отправки.
     // О том, как это делать, расскажем позже.
     // Получите значение полей jobInput и nameInput из свойства value
+    saveBtnEditProfileForm.textContent = 'Сохранение...';
     const newProfileName = nameInput.value;
     const newProfileJob = jobInput.value;
     // Выберите элементы, куда должны быть вставлены значения полей
@@ -80,14 +77,14 @@ function editProfileFormSubmit(event) { //ex handleFormSubmit
     //closePopupSubmit(event);
     updateUserInfoByApi(newProfileName, newProfileJob);
     closeModal(editPopup);
+    saveBtnEditProfileForm.textContent = "Сохранить";
 }
 
 function addCardFormSubmit(event) {
     event.preventDefault();
+    saveBtnAddForm.textContent = 'Сохранение...';
     const cardNameInput = addFormElement.querySelector('.popup__input_type_card-name');
-    const saveBtn = addFormElement.querySelector('.popup__button');
     const cardUrlInput = addFormElement.querySelector('.popup__input_type_url');
-    saveBtn.textContent = "Сохранение..."
     const name = cardNameInput.value;
     const link = cardUrlInput.value;
     addCardApi({name, link}) 
@@ -97,25 +94,23 @@ function addCardFormSubmit(event) {
         .catch(error => {
             console.error(error);
         });
-    
-        
     addFormElement.reset();
-    saveBtn.textContent = "Сохранить";
     closeModal(createCardPopup);
+    saveBtnAddForm.textContent = "Сохранить";
 }
 
 function editProfilePhotoSubmit(event) { 
     event.preventDefault(); 
-    const saveBtnEditProfilePhoto = editProfilePhotoPopup.querySelector('.popup__button');
-    saveBtnEditProfilePhoto.textContent = "Сохранение...";
+    saveBtnEditAvatarForm.textContent = "Сохранение...";
     const profilePhotoUrl = document.querySelector('.profile__image');
     const newUserPhoto = UserPhotoInput.value;
     updateUserPhotoByApi(newUserPhoto)
         .then ( (userData) => {
+            console.log(userData)
             profilePhotoUrl.style.backgroundImage = `url(${userData.avatar})`;
         })
-    closeModal(editProfilePhotoForm);
-    saveBtnEditProfilePhoto.textContent = "Сохранить";
+    closeModal(editProfilePhotoPopup);
+    saveBtnEditAvatarForm.textContent = "Сохранить";
 }
 
 function openImgPopup(event) {
@@ -158,9 +153,12 @@ function initialByApi() {
         const cardsList = res[1];
         const profileName = document.querySelector('.profile__title');
         const profileDesc = document.querySelector('.profile__description');
+        const profilePhotoUrl = document.querySelector('.profile__image');
         profileName.textContent = userInfo.name;
         profileDesc.textContent = userInfo.about;
-        let userID = userInfo._id;
+        userInfo.avatar;
+        profilePhotoUrl.style.backgroundImage = `url(${userInfo.avatar})`;
+        userID = userInfo._id;
         cardsList.forEach(function(element) {
             document.querySelector('.places__list').append(createCard (element, removeCard, likeCard, openImgPopup, userID, deleteCardApi, putLikeCardApi, deleteLikeCardApi));
         });
