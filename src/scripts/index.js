@@ -106,7 +106,6 @@ function editProfilePhotoSubmit(event) {
     const newUserPhoto = UserPhotoInput.value;
     updateUserPhotoByApi(newUserPhoto)
         .then ( (userData) => {
-            console.log(userData)
             profilePhotoUrl.style.backgroundImage = `url(${userData.avatar})`;
         })
     closeModal(editProfilePhotoPopup);
@@ -162,8 +161,6 @@ function initialByApi() {
         cardsList.forEach(function(element) {
             document.querySelector('.places__list').append(createCard (element, removeCard, likeCard, openImgPopup, userID, deleteCardApi, putLikeCardApi, deleteLikeCardApi));
         });
-        console.log(cardsList);
-        console.log(userID);
     })
     .catch(error => {
         console.error(error);

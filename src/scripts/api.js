@@ -103,5 +103,4 @@ function updateUserPhotoByApi(UserPhoto) {
         console.log(res)
         return getResponseData(res)
     })
-    //.then((res) => {console.log(res)})
 };
