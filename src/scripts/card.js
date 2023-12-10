@@ -37,23 +37,35 @@ function createCard (cardData, removeCard, likeCard, openImgPopup, userID, delet
     cardImg.src = cardData.link; 
     cardImg.alt = cardData.name + ', фото';
     removeButton.addEventListener('click', (event) => {
-        deleteCardApi (cardId);
-        removeCard(event);
+        deleteCardApi (cardId)
+            .then ( (res) => {
+                removeCard(event)
+            })
+            .catch(error => {
+                console.error(`Ошибка: ${error}`);
+            })
     });
     
     likeButton.addEventListener('click', (event) => {
         if (likeButton.classList.contains('card__like-button_is-active')) {
             deleteLikeCardApi (cardId)
                 .then( (likes) => {
-                    likeLbl.textContent = likes.likes.length;  
+                    likeLbl.textContent = likes.likes.length; 
+                    likeCard (event); 
+                })
+                .catch(error => {
+                    console.error(`Ошибка: ${error}`);
                 })
         } else putLikeCardApi (cardId)
-                    .then( (likes) => {
-                        likeLbl.textContent = likes.likes.length;
-                    })
-        likeCard (event);
+                .then( (likes) => {
+                    likeLbl.textContent = likes.likes.length;
+                    likeCard (event);
+                })
+                .catch(error => {
+                    console.error(`Ошибка: ${error}`);
+                })
     });
-
+    
     cardImg.addEventListener('click', openImgPopup);
     return cardElement;
 }
