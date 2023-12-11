@@ -97,8 +97,8 @@ function openImgPopup(event) {
 
 function openEditProfilePopup(event) {
     clearValidation(editPopup, validationConfig);
-    nameInput.value = document.querySelector('.profile__title').textContent;
-    jobInput.value = document.querySelector('.profile__description').textContent;
+    nameInput.value = profileName.textContent;
+    jobInput.value = profileDesc.textContent;
     openModal(editPopup);
 }
 

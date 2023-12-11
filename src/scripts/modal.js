@@ -21,7 +21,7 @@ function openModal(popup) {
 
 function closeModal (popup) {
     popup.classList.remove('popup_is-opened'); 
-    setTimeout(() => popup.classList.remove('popup_is-opened'), 600);
+    setTimeout(() => popup.classList.remove('popup_is-animated'), 600);
     window.removeEventListener('keydown', closePopupByEsc);
 }
 
