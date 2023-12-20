@@ -56,7 +56,15 @@ function handleCardFormSubmit(event) {
     const link = cardUrlInput.value;
     addCardApi({name, link}) 
         .then((card) => {
-            cardContainer.prepend(createCard(card, removeCard, likeCard, openImgPopup, userID, deleteCardApi, putLikeCardApi, deleteLikeCardApi));
+            cardContainer.prepend(createCard({
+                cardData: card, 
+                removeCard, 
+                likeCard, 
+                openImgPopup, 
+                userID, 
+                deleteCardApi, 
+                putLikeCardApi, 
+                deleteLikeCardApi}));
             closeModal(createCardPopup);
         })
         .catch(error => {
@@ -127,7 +135,15 @@ function initialByApi() {
         profilePhotoUrl.style.backgroundImage = `url(${userInfo.avatar})`;
         userID = userInfo._id;
         cardsList.forEach(function(element) {
-            cardContainer.append(createCard (element, removeCard, likeCard, openImgPopup, userID, deleteCardApi, putLikeCardApi, deleteLikeCardApi));
+            cardContainer.append(createCard({
+                cardData: element, 
+                removeCard, 
+                likeCard, 
+                openImgPopup, 
+                userID, 
+                deleteCardApi, 
+                putLikeCardApi, 
+                deleteLikeCardApi}));
         });
     })
     .catch(error => {

@@ -10,7 +10,7 @@ function removeCard (event) {
 }
 
 // @todo: Темплейт карточки
-function createCard (cardData, removeCard, likeCard, openImgPopup, userID, deleteCardApi, putLikeCardApi, deleteLikeCardApi) {
+function createCard ({cardData, removeCard, likeCard, openImgPopup, userID, deleteCardApi, putLikeCardApi, deleteLikeCardApi}) {
     const cardElement = cardTemplate.querySelector('.card').cloneNode(true);
     const removeButton = cardElement.querySelector('.card__delete-button');
     const likeButton = cardElement.querySelector('.card__like-button');

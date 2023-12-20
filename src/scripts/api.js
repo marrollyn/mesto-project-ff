@@ -28,6 +28,7 @@ function getUserInfoByApi() {
 }
 
 function getResponseData (res) {
+    console.log(res);
     if (!res.ok) {
         return Promise.reject(`Ошибка: ${res.status}`);
     }
@@ -78,17 +79,17 @@ function deleteLikeCardApi (cardId) {
 };
 
 function updateUserPhotoByApi(userPhoto) {
-    return fetch(config.baseUrl + '/users/me/avatar', {
+    return request(config.baseUrl + '/users/me/avatar', {
         method: 'PATCH',
         body: JSON.stringify({
             avatar: userPhoto
         }),
         headers: config.headers,
     }) 
-    .then((res) => getResponseData(res));
 };
 
-// function requestFnc(url, options) {
-//     // принимает два аргумента: урл и объект опций, как и `fetch`
-//     return fetch(url, options).then(getResponseData);
-// }
+function request(url, options) {
+    // принимает два аргумента: урл и объект опций, как и `fetch`
+    return fetch(url, options).then(getResponseData);
+};
+

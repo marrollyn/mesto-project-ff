@@ -43,13 +43,17 @@ const hasInvalidInput = (inputList) => {
 
 const toggleButtonState = (inputList, buttonElement, inactiveButtonClass) => {
     if (hasInvalidInput(inputList)) {
-        buttonElement.classList.add(inactiveButtonClass);
-        buttonElement.disabled = true;
+        disableBtn(buttonElement, inactiveButtonClass); 
     } else {
         buttonElement.classList.remove(inactiveButtonClass);
         buttonElement.disabled = false;
     }
 }; 
+
+const disableBtn = (buttonElement, inactiveButtonClass) => {
+    buttonElement.classList.add(inactiveButtonClass);
+    buttonElement.disabled = true;
+};
 
 const setEventListeners = (formElement, submitButtonSelector, inputSelector, inactiveButtonClass, inputErrorClass, errorClass) => {
       // Находим все поля внутри формы,
@@ -57,6 +61,9 @@ const setEventListeners = (formElement, submitButtonSelector, inputSelector, ina
     const inputList = Array.from(formElement.querySelectorAll(inputSelector));
     const buttonElement = formElement.querySelector(submitButtonSelector);
     toggleButtonState(inputList, buttonElement, inactiveButtonClass);
+    formElement.addEventListener('reset', () => {
+        disableBtn(buttonElement, inactiveButtonClass);
+    });
        // Обойдём все элементы полученной коллекции
     inputList.forEach((inputElement) => {
         // каждому полю добавим обработчик события input
